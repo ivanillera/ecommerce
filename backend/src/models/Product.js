@@ -2,7 +2,7 @@ const { Schema, model } = require('mongoose')
 
 const productSchema = new Schema({
     name: {type: String, required:true},
-    notes: {type: String, required: false} // Contiene el hilo de apuntes creados
+    price: {type: Float32Array, required:true}
 }, {
     timestamps: true,
     versionKey: false
