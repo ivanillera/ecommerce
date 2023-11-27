@@ -2,6 +2,7 @@ import React from 'react'
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import Login from './Login'
 
 const navigation = [
     { name: 'Ofertas', href: '#', current: true },
@@ -13,6 +14,12 @@ const navigation = [
   }
 
 export const Navbar = () => {
+
+  const handleLogin = (userData) => {
+    // Lógica de autenticación
+    console.log(userData);
+  }
+
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
@@ -57,6 +64,10 @@ export const Navbar = () => {
                   </div>
                 </div>
               </div>
+              <div className="flex items-center ml-4">
+                {/* Aquí colocamos el componente Login */}
+                <Login onLogin={handleLogin} />
+              </div>
             </div>
           </div>
 
@@ -76,10 +87,12 @@ export const Navbar = () => {
                   {item.name}
                 </Disclosure.Button>
               ))}
+              
             </div>
           </Disclosure.Panel>
         </>
       )}
     </Disclosure>
+    
   )
 }

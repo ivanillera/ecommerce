@@ -138,6 +138,29 @@ app.put('/api/products/:id', async (req, res) => {
   } finally {
     await client.close();
   }
+
+
+
+  // Rutas de administrador
+
+// Ruta para el inicio de sesión del administrador
+app.post('/api/admin/login', async (req, res) => {
+  const { username, password } = req.body;
+
+  // Lógica de autenticación del administrador (ajustar según necesidades)
+  const hashedAdminPassword = '$2b$10$OYBCL...'; // Reemplaza con la contraseña hash del administrador
+  const validPassword = await bcrypt.compare(password, hashedAdminPassword);
+
+  if (validPassword && username === 'admin') {
+    const token = generateToken(); // Implementa esta función para generar tu token JWT
+    res.status(200).json({ token });
+  } else {
+    res.status(401).json({ error: 'Credenciales inválidas' });
+  }
+});
+
+// Otras rutas de administrador si las tienes
+
 });
 
 
