@@ -143,23 +143,33 @@ app.put('/api/products/:id', async (req, res) => {
 
   // Rutas de administrador
 
-// Ruta para el inicio de sesión del administrador
+// Ruta para iniciar sesión (y verificar al administrador)
 app.post('/api/admin/login', async (req, res) => {
-  const { username, password } = req.body;
+  try {
+    await client.connect();
+    const db = client.db('eCommerce');
+    const adminCollection = db.collection('admins');
 
-  // Lógica de autenticación del administrador (ajustar según necesidades)
-  const hashedAdminPassword = '$2b$10$OYBCL...'; // Reemplaza con la contraseña hash del administrador
-  const validPassword = await bcrypt.compare(password, hashedAdminPassword);
+    // Administrador predeterminado (cámbialo según tus necesidades)
+    const defaultAdmin = {
+      email: 'ivanillera@gmail.com',
+      password: 'hola123',
+    };
 
-  if (validPassword && username === 'admin') {
-    const token = generateToken(); // Implementa esta función para generar tu token JWT
-    res.status(200).json({ token });
+    // Recibir datos del cuerpo de la solicitud
+    const { email, password } = req.body;
+
+  // Verificar si las credenciales coinciden con el administrador
+  if (email === adminCredentials.email && password === adminCredentials.password) {
+    res.status(200).json({ message: 'Inicio de sesión exitoso' });
   } else {
-    res.status(401).json({ error: 'Credenciales inválidas' });
+    res.status(401).json({ error: 'Credenciales incorrectas' });
   }
+} catch (error) {
+  console.error('Error al iniciar sesión', error);
+  res.status(500).json({ error: 'Error interno del servidor' });
+}
 });
-
-// Otras rutas de administrador si las tienes
 
 });
 
